@@ -51,8 +51,11 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-compiler:2.38.1"
 
-    //--- sdp
-    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    // Hilt ViewModel extension
+    def hilt_jetpack_version = "1.0.0-alpha03"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_jetpack_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_jetpack_version"
+    implementation 'androidx.fragment:fragment-ktx:1.4.0'
 
     //--- gson
     implementation 'com.google.code.gson:gson:2.8.7'

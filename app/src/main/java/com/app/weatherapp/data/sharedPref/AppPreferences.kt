@@ -6,7 +6,9 @@ import com.app.weatherapp.data.sharedPref.constants.PrefConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AppPreferences @Inject constructor(@ApplicationContext context: Context) {
+class AppPreferences @Inject constructor(
+    @ApplicationContext context: Context
+) {
 
     private var mPrefs: SharedPreferences? = null
 
