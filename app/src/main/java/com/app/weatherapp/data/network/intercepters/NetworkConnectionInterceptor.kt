@@ -6,12 +6,14 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import com.app.weatherapp.R
 import com.app.weatherapp.data.network.exceptions.NoInternetException
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
 
-class NetworkConnectionInterceptor(
-    context: Context
+class NetworkConnectionInterceptor @Inject constructor(
+    @ApplicationContext context: Context
 ) : Interceptor {
 
     private val applicationContext = context.applicationContext

@@ -13,10 +13,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class RetrofitClient @Inject constructor(
-    @ApplicationContext context: Context
-) : SafeApiRequest(context) {
+    @ApplicationContext context: Context,
+    private val networkConnectionInterceptor: NetworkConnectionInterceptor,
+    private val accessTokenInterceptor: AccessTokenInterceptor
 
-    private val applicationContext = context
+) : SafeApiRequest(context) {
 
     private val clientWithoutAuth by lazy {
         Retrofit.Builder().baseUrl(ApiConstants.Urls.BASE_URL).client(
@@ -36,7 +37,7 @@ class RetrofitClient @Inject constructor(
             .connectTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(NetworkConnectionInterceptor(applicationContext))
+            .addInterceptor(networkConnectionInterceptor)
             .addInterceptor(getLoggingInterceptor())
             .build()
     }
@@ -45,7 +46,7 @@ class RetrofitClient @Inject constructor(
         Retrofit.Builder().baseUrl(ApiConstants.Urls.BASE_URL)
             .client(
                 OkHttpClient().newBuilder()
-                    .addInterceptor(AccessTokenInterceptor(applicationContext))
+                    .addInterceptor(accessTokenInterceptor)
                     .addInterceptor(getLoggingInterceptor())
                     .build()
             ).addConverterFactory(GsonConverterFactory.create()).build().create(Api::class.java)
@@ -53,7 +54,12 @@ class RetrofitClient @Inject constructor(
 
     suspend fun postRequest(request: Any, url: String, auth_type: String): Any {
         return when (auth_type) {
-            ApiConstants.ApiHelpers.AUTH_WITHOUT -> apiRequest { clientWithoutAuth.postRequest(url, request) }
+            ApiConstants.ApiHelpers.AUTH_WITHOUT -> apiRequest {
+                clientWithoutAuth.postRequest(
+                    url,
+                    request
+                )
+            }
             else -> apiRequest { clientWithAuth.postRequest(url, request) }
         }
     }
@@ -67,7 +73,7 @@ class RetrofitClient @Inject constructor(
 
     suspend fun deleteRequest(url: String, auth_type: String): Any {
         return when (auth_type) {
-            ApiConstants.ApiHelpers.AUTH_WITHOUT  -> apiRequest { clientWithoutAuth.deleteRequest(url) }
+            ApiConstants.ApiHelpers.AUTH_WITHOUT -> apiRequest { clientWithoutAuth.deleteRequest(url) }
             else -> apiRequest { clientWithAuth.deleteRequest(url) }
         }
     }

@@ -1,8 +1,8 @@
 package com.app.weatherapp.ui.dashboard
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +18,7 @@ import com.app.weatherapp.models.showForecastModel.ForecastModel
 import com.app.weatherapp.utils.Utils
 import com.app.weatherapp.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -46,21 +47,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun initCurrentApiCalls() {
-        mViewModel.getCurrentWeatherData()
-    }
-
-    private fun initForecastApiCall() {
-        mViewModel.getForecastData()
-    }
-
     private fun observers() {
         mViewModel.currentWeatherResponse.observe(this, Observer {
             if (it != null) {
-                Log.i(">>>>", "observers: currentWeatherResponse: ${it.message}")
                 when (it.status) {
                     BaseResponse.Status.LOADING -> {
-                        //---show progress
                         showProgress()
                     }
                     BaseResponse.Status.ERROR -> {
@@ -78,18 +69,14 @@ class MainActivity : BaseActivity() {
 
         mViewModel.forecastDataResponse.observe(this, Observer {
             if (it != null) {
-                Log.i(">>>>", "observers: forecastDataResponse: ${it.message}")
                 when (it.status) {
                     BaseResponse.Status.LOADING -> {
-                        //---show progress
                         showProgress()
                     }
                     BaseResponse.Status.ERROR -> {
-                        //---hide progress
                         showErrorScreen()
                     }
                     BaseResponse.Status.SUCCESS -> {
-                        //---hide progress
                         mForecastTempData = it.data
                         showSuccessScreen()
                     }
@@ -148,7 +135,10 @@ class MainActivity : BaseActivity() {
                 //--- add to model list
                 mForecastList.add(
                     ForecastModel(
-                        Utils.getWeekDay(tempDate), totalTempInCelsius.toInt().toString()
+                        Utils.getWeekDay(tempDate),
+                        "${
+                            totalTempInCelsius.toInt()
+                        }${Constants.Common.sDegreeWithCSymbol}"
                     )
                 )
                 //--- change tempDate
@@ -164,7 +154,6 @@ class MainActivity : BaseActivity() {
         if (mForecastList.size > 4) {
             mForecastList.removeAt(0)
         }
-
         return mForecastList
     }
 
@@ -177,6 +166,9 @@ class MainActivity : BaseActivity() {
         mBinding.successLay.visible(true)
         setCurrentDayTemp()
         setForeCastRecyclerView(getForCastModel())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Utils.animateFromBottom(mBinding.parent, mBinding.forecastListLay)
+        }
     }
 
     private fun showErrorScreen() {
@@ -196,5 +188,13 @@ class MainActivity : BaseActivity() {
 
     private fun hideProgress() {
         mBinding.progressBar.visible(false)
+    }
+
+    private fun initCurrentApiCalls() {
+        mViewModel.getCurrentWeatherData()
+    }
+
+    private fun initForecastApiCall() {
+        mViewModel.getForecastData()
     }
 }

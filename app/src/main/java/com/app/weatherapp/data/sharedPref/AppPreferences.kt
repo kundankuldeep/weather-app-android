@@ -9,7 +9,6 @@ import javax.inject.Inject
 class AppPreferences @Inject constructor(
     @ApplicationContext context: Context
 ) {
-
     private var mPrefs: SharedPreferences? = null
 
     private val context = context.applicationContext

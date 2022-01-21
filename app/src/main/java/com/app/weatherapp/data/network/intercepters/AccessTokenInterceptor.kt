@@ -1,15 +1,14 @@
 package com.app.weatherapp.data.network.intercepters
 
-import android.content.Context
 import com.app.weatherapp.data.sharedPref.AppPreferences
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import javax.inject.Inject
 
-class AccessTokenInterceptor(context: Context) : Interceptor {
-
-    private val appContext = context.applicationContext
-    private val preferences = AppPreferences(appContext)
+class AccessTokenInterceptor @Inject constructor(
+    private val preferences: AppPreferences
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = preferences.getAccessToken()
