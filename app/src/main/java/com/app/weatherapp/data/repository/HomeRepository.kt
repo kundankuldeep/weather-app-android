@@ -17,7 +17,7 @@ class HomeRepository @Inject constructor(
 
     suspend fun getForecastData(): Any {
         return retrofitClient.getRequest(
-            ApiConstants.Urls.FORECAST_DATA_URL,
+            ApiConstants.Urls.FORECAST_DATA_URL + ApiConstants.ApiHelpers.WEATHER_API_KEY,
             ApiConstants.ApiHelpers.AUTH_WITHOUT
         )
     }

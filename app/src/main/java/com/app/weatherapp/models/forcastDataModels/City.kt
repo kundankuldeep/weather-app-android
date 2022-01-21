@@ -5,10 +5,10 @@ import com.app.weatherapp.models.currentTempModels.Coord
 data class City(
     val coord: Coord?,
     val country: String?,
-    val id: Int?,
+    val id: Double?,
     val name: String?,
-    val population: Int?,
-    val sunrise: Int?,
-    val sunset: Int?,
-    val timezone: Int?
+    val population: Double?,
+    val sunrise: Double?,
+    val sunset: Double?,
+    val timezone: Double?
 )

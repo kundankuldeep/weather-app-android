@@ -3,4 +3,6 @@
     <string name="msg">message</string>
     <string name="something_went_wrong">Something went wrong. Please try again later.</string>
     <string name="no_internet_connection">No internet connection.</string>
+    <string name="something_went_wrong_at_our_side">Something went wrong at our side!</string>
+    <string name="retry">RETRY</string>
 </resources>
