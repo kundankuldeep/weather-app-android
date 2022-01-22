@@ -9,8 +9,6 @@ import javax.inject.Inject
 class AppPreferences @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private var mPrefs: SharedPreferences? = null
-
     private val context = context.applicationContext
 
     private fun getSharedPreferences(): SharedPreferences? {
@@ -26,10 +24,9 @@ class AppPreferences @Inject constructor(
             ?.apply()
     }
 
-
     //--- clear all preferences
     fun clearPreferences() {
-        mPrefs!!.edit().clear().apply()
+        getSharedPreferences()!!.edit().clear().apply()
     }
 
 }

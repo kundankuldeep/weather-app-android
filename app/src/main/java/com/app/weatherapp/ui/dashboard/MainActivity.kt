@@ -93,7 +93,7 @@ class MainActivity : BaseActivity() {
             dataList,
             object : ForecastAdapter.OnItemSelected {
                 override fun onSelect(position: Int, data: ForecastModel) {
-
+                    //Action when item selected
                 }
             }
         )
@@ -143,8 +143,6 @@ class MainActivity : BaseActivity() {
                 )
                 //--- change tempDate
                 tempDate = dateStr
-                //--- make totalTempInCelsius to 0
-                totalTempInCelsius = 0.0
                 //--- set current date temp
                 totalTempInCelsius = Utils.convertFromKelvinToCelsius(data.main!!.temp!!)
                 //--- change index count to 1

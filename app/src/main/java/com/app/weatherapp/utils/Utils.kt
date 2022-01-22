@@ -1,5 +1,6 @@
 package com.app.weatherapp.utils
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.transition.Slide
 import android.transition.Transition
@@ -17,11 +18,12 @@ object Utils {
         return pTempInKelvin - 273.15
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getWeekDay(dateStr: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd") //2022-01-21
-        val date: Date = inputFormat.parse(dateStr)
+        val date: Date? = inputFormat.parse(dateStr)
         val outputFormat = SimpleDateFormat("EEEE")
-        return outputFormat.format(date)
+        return if (date != null) outputFormat.format(date) else ""
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

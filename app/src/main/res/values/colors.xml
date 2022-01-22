@@ -8,9 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="color_1">#F5F6F7</color>
-    <color name="color_2">#4A4A4A</color>
-    <color name="color_3">#2A2A2A</color>
-    <color name="color_4">#556799</color>
-    <color name="color_5">#E85959</color>
+    <color name="color_app_bg">#F5F6F7</color>
+    <color name="color_btn_bg">#4A4A4A</color>
+    <color name="color_main_text">#2A2A2A</color>
+    <color name="color_sub_text">#556799</color>
+    <color name="color_error_bg">#E85959</color>
 </resources>

@@ -17,7 +17,7 @@ abstract class SafeApiRequest(
             return response.body()!!
         else {
             val error = response.errorBody().toString()
-            var message = ""
+            var message: String
             error.let {
                 message = try {
                     val json = JSONObject(it)
